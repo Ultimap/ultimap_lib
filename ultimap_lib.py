@@ -1,9 +1,11 @@
+# Элемент связанного списка
 class LinkedListItem:
     def __init__(self, value):
         self.value = value
         self.next = None
 
 
+# Связанный список
 class LinkedList:
     def __init__(self):
         self.__head = None
@@ -51,6 +53,7 @@ class LinkedList:
         return False
 
 
+# Бинарный поиск
 def binary_search(list, item):
     left = 0
     right = len(list) - 1
@@ -65,6 +68,7 @@ def binary_search(list, item):
     return None
 
 
+# Поиск наименьшего эллемента в массиве
 def find_smallest(list):
     smallest = list[0]
     smallest_index = 0
@@ -75,6 +79,7 @@ def find_smallest(list):
     return smallest_index
 
 
+# Сортировка выбором
 def selection_sort(list):
     new_list = []
     for _ in range(len(list)):
