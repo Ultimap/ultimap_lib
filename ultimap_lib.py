@@ -36,9 +36,11 @@ class LinkedList:
 
     def show_all_list(self):
         current_item = self.__head
+        new_list = []
         while current_item is not None:
-            print(current_item.value)
+            new_list.append(current_item.value)
             current_item = current_item.next
+        return new_list
 
     def search_item(self, value):
         current_item = self.__head
