@@ -1,4 +1,7 @@
 # Элемент связанного списка
+import random
+
+
 class LinkedListItem:
     def __init__(self, value):
         self.value = value
@@ -87,4 +90,14 @@ def selection_sort(list):
         new_list.append(list.pop(smallest))
     return new_list
 
+
+def fast_sort(list):
+    if len(list) < 2:
+        return list
+    else:
+        pivot = random.choice(list)
+        left = [_ for _ in list if _ < pivot]
+        middle = [_ for _ in list if _ == pivot]
+        right = [_ for _ in list if _ > pivot]
+        return fast_sort(left) + middle + fast_sort(right)
 
