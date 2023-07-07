@@ -1,7 +1,10 @@
-# Элемент связанного списка
 import random
+import collections
+
+INFINITY = float('inf')
 
 
+# Элемент связанного списка
 class LinkedListItem:
     def __init__(self, value):
         self.value = value
@@ -14,6 +17,7 @@ class LinkedList:
         self.__head = None
         self.__tail = None
 
+    # Добавление в конец списка
     def add(self, value):
         add_item = LinkedListItem(value)
         if self.__head is None:
@@ -23,6 +27,7 @@ class LinkedList:
             self.__tail.next = add_item
             self.__tail = add_item
 
+    # Удаление
     def remove(self, value):
         current_item = self.__head
         past_item = None
@@ -39,6 +44,7 @@ class LinkedList:
             current_item = current_item.next
         return False
 
+    # Вернуть весь список
     def show_all_list(self):
         current_item = self.__head
         new_list = []
@@ -47,12 +53,27 @@ class LinkedList:
             current_item = current_item.next
         return new_list
 
+    # Имеется ли значение в списке
     def search_item(self, value):
         current_item = self.__head
         while current_item is not None:
             if current_item.value == value:
                 return True
             current_item = current_item.next
+        return False
+
+    # Добавить значение в список по индеску
+    def add_in(self, add_value, index_value):
+        add_item = LinkedListItem(add_value)
+        current_item = self.__head
+        index = 0
+        while current_item is not None:
+            if index == index_value - 1:
+                add_item.next = current_item.next
+                current_item.next = add_item
+                return True
+            current_item = current_item.next
+            index += 1
         return False
 
 
@@ -91,6 +112,7 @@ def selection_sort(list):
     return new_list
 
 
+# Быстрая сортировка
 def fast_sort(list):
     if len(list) < 2:
         return list
@@ -101,3 +123,46 @@ def fast_sort(list):
         right = [_ for _ in list if _ > pivot]
         return fast_sort(left) + middle + fast_sort(right)
 
+
+# Поиск в ширину
+def search_graph(graph, first_value, search_value):
+    processed = []
+    search_queue = collections.deque()
+    search_queue += graph[first_value]
+    while search_queue:
+        now_value = search_queue.popleft()
+        if now_value not in processed:
+            if now_value == search_value:
+                return True
+            else:
+                processed.append(now_value)
+                search_queue += graph[now_value]
+    return False
+
+
+# Алгоритм Дейкстры для поиска не отрицательных взвешиных графов
+def Dekstra(graph, costs, parents):
+    processed = []
+
+    def find_lower_cost_node(costs):
+        lower_cost = INFINITY
+        lower_cost_node = None
+        for node in costs:
+            cost = costs[node]
+            if cost < lower_cost and node not in processed:
+                lower_cost = cost
+                lower_cost_node = node
+        return lower_cost_node
+
+    node = find_lower_cost_node(costs)
+    while node is not None:
+        cost = costs[node]
+        neighbors = graph[node]
+        for n in neighbors.keys():
+            new_cost = cost + neighbors[n]
+            if new_cost < costs[n]:
+                costs[n] = new_cost
+                parents[n] = node
+        processed.append(node)
+        node = find_lower_cost_node(costs)
+    return parents, costs
